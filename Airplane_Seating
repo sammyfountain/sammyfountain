@@ -1,0 +1,162 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+
+class Airplane {
+private: 
+	// this is setting up my rows and seat... 13 rows and 6 seats
+	// I also dont want anybody changing the layout of the plane
+	char seats[13][6];
+
+public:
+	//Constructor!! just learned this! thank you!
+	Airplane() {
+
+		//Loop to go through every row
+		for (int r = 0; r < 13; r++) {
+
+			//loops through every seat in each row
+			for (int s = 0; s < 6; s++) {
+
+				//based this off the star in the example
+				//if this is seen on the seat, its available
+				seats[r][s] = '*';
+			}
+		}
+	}
+
+	// Going to display my seating chart
+	// set this to void because its not doing anything other than going through the seats and showing them
+	void showSeats() {
+
+		// displaying the seat letters
+		cout << "A B C D E F G" << endl;
+
+		//Starts by looping through all the rows
+		for (int r = 0; r < 13; r++) {
+
+			//added the +1 for the rows because the plane seats start at 1 and not zero 
+			cout << "Row" << setw(2) << r + 1 << " ";
+
+			//this controls the seats in each row
+			//s is for controlling the seat column
+			for (int s = 0; s < 6; s++) {
+
+				// this will give the seat value which is either:
+				// * = seat is open
+				// X = seat is taken
+				cout << seats[r][s] << " ";
+			}
+			//prints ONE full row and then moves to next line
+			cout << endl;
+		}
+
+		// a little more space for aesthetics
+		cout << endl;
+	}
+
+	//Booking a seat
+
+	//this is the bread and butter!
+	// int row will allow user to input a row number: 1-13
+	//char seatLetter will allow user to input a seat: A-F 
+	void seatBooking(int row, char seatLetter) {
+
+
+		//this is to convert the row numer to an array index
+		//arrays start at zero, but I hacked the mainframe (subtracted 1)
+		int rowIndex = row - 1;
+
+		//turns the letter to column indexes
+		//A-F becoomes 0-5
+		int columnIndex = seatLetter - 'A';
+
+		cout << "DEBUG: rowIndex= " << rowIndex << " columnIndex= " << columnIndex << " current= " << seats[rowIndex][columnIndex];
+		//validates the input by the user
+		// if the row or seat are invalid it will let them know and exit
+		if (row < 0 || rowIndex >= 13 || columnIndex < 0 || columnIndex >= 6) {
+			cout << "Not a valid seat selection" << endl;
+			//immediately stops function
+			return;
+		}
+
+		//1. checks to see if seat is available
+		// Line 46 and 47 are the legend
+		if (seats[rowIndex][columnIndex] == '*') {
+
+			//if the seat is availble, it will replace the * with the X
+			seats[rowIndex][columnIndex] = 'X';
+			cout << "Congratulations on booking your flight!" << endl;
+		}
+
+		//different from an invalid input
+		// the seat exists but it is taken
+		else {
+			cout << "Seat is unavailable" << endl;
+		}
+	}
+
+	// setting up a boolean to check if this matches the ticket type
+
+	bool validTicketRow(int ticketType, int row) {
+
+		// This whole section is differentiating between 1st class through economy
+		if (ticketType == 1 && (row == 1 || row == 2))
+			return true;
+		if (ticketType == 2 && (row >= 3 && row <= 7))
+			return true;
+		if (ticketType == 3 && (row >= 8 && row <= 13))
+			return true;
+
+		return false;
+	}
+};
+
+int main() {
+	Airplane plane;
+
+
+	int selection;
+	char again = 'Y';
+
+	while (again == 'Y' || again == 'y') {
+		
+		plane.showSeats();
+	
+
+		cout << "Select Ticket Type: " << endl;
+		cout << "1. First Class (Rows 1 - 2 " << endl;
+		cout << "2. Business Class (Rows 3 - 7) " << endl;
+		cout << "3. Economy (Rows 8 - 13) " << endl;
+		cout << "Selection: ";
+		cin >> selection;
+
+		int row;
+		char seat;
+
+		cout << "Enter Desired Row (1 - 7): ";
+		cin >> row;
+
+		if (!plane.validTicketRow(selection, row)) {
+			cout << "Row does not match selected ticket type" << endl;
+		}
+		else {
+			cout << "Enter Seat Letter (A - F): ";
+			cin >> seat;
+
+			//this is automatically making the seat into an uppercase regardless of the way its typed
+			seat = toupper(seat);
+
+			plane.seatBooking(row, seat);
+			plane.showSeats();
+		}
+
+		cout << "Book another seat? (Y / N): ";
+			cin >> again;
+	}
+
+	cout << endl << "Final Seating Chart" << endl;
+	plane.showSeats();
+
+	return 0;
+}
