@@ -1,0 +1,258 @@
+//Noahs Ark
+
+//*look into setting up a vector of objects*
+// structure > array
+// loooking for best structure where I dont have change the
+//whole system
+
+//1. Build an animal class
+	// age
+	// ID (static)
+// 2.Build a Mammal Subclass
+// Characteristics: Hair/fur, live birth, warm blooded, 4-legged	
+	//2a. Cat subclass?
+	//2b. Dog subclass?	
+
+//3. Build a bird subclass
+// Characteristics: Feathers, Flies, lays eggs, warm blooded, 2-legged
+	//3a. Eagle subclass?
+	//3b. Pigeon subclass?	
+
+//4. Build a fish subclass
+// Characteristics: gills, lays eggs, scales, lives in water
+	//4a. Goldfish subclass?
+	//4b. clownfish subclass?
+
+//5. need a male and female : boolean
+// 
+	//5a. maybe i need a subclass for each?
+	//5b. Birth Rates for Females:
+		//5b.1. Mammals: 12months
+		//5b.2. birds: 9 months
+		//5b.3. fish: 6 months
+		
+//Mammal Class
+
+//tips:
+	//make a static id number for 
+
+#include<iostream>
+#include<string>
+#include<iomanip>
+using namespace std;
+
+class Animal {
+private:
+	//nextId allows me to give each animal a unique ID
+	//static int allows all animals to share the same "nextID" within this class
+	int age;
+	bool issaFemale;
+	int id;
+	static int nextId;
+public:
+	// this is my default constructor
+	Animal() {
+		age = 0;
+		issaFemale = false;
+		id = nextId;
+		nextId++;
+	}
+
+	//Constructor with values
+	Animal(int animalAge, bool female) {
+		age = animalAge;
+		issaFemale = female;
+		id = nextId;
+		nextId;
+	}
+
+	//setters
+	void setAge(int animalAge) {
+		age = animalAge;
+	}
+
+	void setGender(bool female) {
+		issaFemale = female;
+	}
+
+	//getters
+	int getAge() const {
+		return age;
+	}
+
+	bool getGender() const {
+		return issaFemale;
+	}
+
+	int getId() const {
+		return id;
+	}
+
+	//adds 1 month to age
+	void ageIncrease() {
+		age++;
+	}
+	//Animal info display
+	void animalDisplay() const {
+		cout << "Animal ID: " << id << endl;
+		cout << "Age: " << age << " months" << endl;
+		cout << "Gender: ";
+
+		if (issaFemale) {
+			cout << "Female" << endl;
+		}
+		else {
+			cout << "Male" << endl;
+		}
+	}
+};
+
+//because I have a static variable, I MUST define it outside the class
+int Animal::nextId = 1;
+
+//here is my mammal subclass
+class Mammal : public Animal {
+private:
+	int birthRates;
+
+public:
+	//default constructor for subclass
+	Mammal() : Animal() {
+		birthRates = 12;
+	}
+
+	//subclass constructor with values
+	Mammal(int animalAge, bool female) : Animal(animalAge, female) {
+		birthRates = 12;
+	}
+
+	int getbirthRate() const {
+		return birthRates;
+	}
+
+	void mammalDisplay() const {
+		animalDisplay();
+		cout << "Animal Type: Mammal" << endl;
+		cout << "Birth Rate: " << birthRates << "months" << endl;
+	}
+
+};
+
+class Bird : public Animal {
+private:
+	int birthRateMonths;
+public:
+	Bird() : Animal() {
+		birthRateMonths = 9;
+	}
+
+	Bird(int animalAge, bool female) : Animal(animalAge, female) {
+		birthRateMonths = 9;
+	}
+
+	int getbirthRate() const {
+		return birthRateMonths;
+	}
+
+	void birdDisplay() const {
+		animalDisplay();
+		cout << "Animal Type: Bird" << endl;
+		cout << "Birth rate: " << birthRateMonths << " months" << endl;
+	}
+};
+//********************************
+//********************************
+//********************************
+//********************************
+// LEFT OFF HERE!!!!!
+//********************************
+//********************************
+//********************************
+//********************************
+class Cat : public Mammal {
+public:
+	//default constructor
+	Cat() :Mammal() {
+	}
+
+	//Constructor with Values
+	Cat(int animalAge, bool female) : Mammal(animalAge, female) {
+	}
+
+	void displayCat() const {
+		animalDisplay();
+		cout << "Animal Type: Mammal" << endl;
+		cout << "Mammal Type: Cat" << endl;
+		cout << "Birth Rate: " << getbirthRate() << " months" << endl;
+	}
+};
+
+class Dog : public Mammal {
+public:
+	//default constructor
+	Dog() : Mammal() {
+	}
+
+	//Constructor with Values
+	Dog(int animalAge, bool female) : Mammal(animalAge, female) {
+	}
+		void displayDog() const {
+			animalDisplay();
+			cout << "Animal type: Mammal" << endl;
+			cout << "Mammal type: Dog" << endl;
+			cout << "Birth Rate: " << getbirthRate() << "months" << endl;
+	}
+};
+
+int main() {
+
+	Cat cat1;
+	Cat cat2(5, true);
+
+	Dog dog1;
+	Dog dog2(8, false);
+
+	cout << "Cat 1:" << endl;
+	cat1.displayCat();
+	cout << endl;
+
+	cout << "Cat 2:" << endl;
+	cat2.displayCat();
+	cout << endl;
+
+	cout << "Dog 1:" << endl;
+	dog1.displayDog();
+	cout << endl;
+
+	cout << "Dog 2:" << endl;
+	dog2.displayDog();
+	cout << endl;
+
+	Animal animal1;
+	Animal animal2(6, true);
+
+	Mammal mammal1;
+	Mammal mammal2(8, true);
+
+	cout << "Animal 1: " << endl;
+	animal1.animalDisplay();
+	cout << endl;
+
+	cout << "Animal 2: " << endl;
+	animal2.animalDisplay();
+	cout << endl;
+
+	cout << "Mammal 1: " << endl;
+	mammal1.mammalDisplay();
+	cout << endl;
+
+	cout << "Mammal 2: " << endl;
+	mammal2.mammalDisplay();
+	cout << endl;
+
+	animal2.ageIncrease();
+	cout << "1 month later (age): " << endl;
+	animal2.animalDisplay();
+
+	return 0;
+}
