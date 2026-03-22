@@ -1,3 +1,9 @@
+//Noahs Ark
+//A Project by Dawid Szymczyk and Samuel Fuentes
+//Samuel and Dawid brainstormed the most logical path to completing this part
+//Samuel is reponsible for Lines 1 - 167
+//Dawid is responsible for lines 167 - End
+//comments were split between both
 #include <iostream>
 #include <string>
 #include <vector>
