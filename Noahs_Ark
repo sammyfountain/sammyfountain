@@ -175,21 +175,20 @@ public:
 //there are two of each for male and female
 //push_back is what pushes each to the END of the vector
 void buildArk(vector<Animal*>& ark) {
-    ark.push_back(new Cat(0, true));
-    ark.push_back(new Cat(0, false));
-    ark.push_back(new Dog(0, true));
-    ark.push_back(new Dog(0, false));
-    ark.push_back(new Eagle(0, true));
-    ark.push_back(new Eagle(0, false));
-    ark.push_back(new Parakeet(0, true));
-    ark.push_back(new Parakeet(0, false));
-    ark.push_back(new Goldfish(0, true));
-    ark.push_back(new Goldfish(0, false));
-    ark.push_back(new Shark(0, true));
-    ark.push_back(new Shark(0, false));
+    ark.push_back(new Cat(11, true));
+    ark.push_back(new Cat(11, false));
+    ark.push_back(new Dog(11, true));
+    ark.push_back(new Dog(11, false));
+    ark.push_back(new Eagle(11, true));
+    ark.push_back(new Eagle(11, false));
+    ark.push_back(new Parakeet(11, true));
+    ark.push_back(new Parakeet(11, false));
+    ark.push_back(new Goldfish(11, true));
+    ark.push_back(new Goldfish(11, false));
+    ark.push_back(new Shark(11, true));
+    ark.push_back(new Shark(11, false));
 }
 //just like the function above, its pointing to Animal and updating main, not making a copy
-
 void checkInventory(const vector<Animal*>& ark) {
     cout << "\n===== INVENTORY =====\n";
     //starting at beginning of index (0) and keep looping until we reach the end which is however
