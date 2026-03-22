@@ -2,64 +2,53 @@
 #include <string>
 #include <vector>
 using namespace std;
-
-// ===================== Animal hierarchy =====================
+//Classes and subclasses
 class Animal {
 private:
     int age;
-    bool isFemale;
+    bool isFemale; //determines if boy/girl
     int id;
     static int nextId;
-
 public:
     Animal() {
         age = 0;
         isFemale = false;
-        id = nextId++;
+        id = nextId++; //gives everyone a unique ID, so everyone's age isnt the same
     }
-
     Animal(int animalAge, bool female) {
         age = animalAge;
         isFemale = female;
         id = nextId++;
     }
-
     void setAge(int animalAge) {
         age = animalAge;
     }
-
     void setGender(bool female) {
         isFemale = female;
     }
-
+    // const is ensuring age is only looked at and not modified
     int getAge() const {
         return age;
     }
-
     bool getGender() const {
         return isFemale;
     }
-
     int getId() const {
         return id;
     }
-
     void increaseAge() {
         age++;
     }
-
+    //so we can call everything animal but keep their subclass
     virtual int getBirthRate() const {
         return 0;
     }
-
     virtual string getSpecies() const {
         return "Animal";
     }
-
     virtual string getType() const {
         return "Animal";
     }
-
     virtual void displayAnimal() const {
         cout << "Animal #" << id << ": I am a ";
         if (isFemale) {
@@ -70,139 +59,115 @@ public:
         }
         cout << getSpecies() << ", " << age << " month(s) old" << endl;
     }
-
     virtual ~Animal() {}
 };
-
 int Animal::nextId = 1;
-
+// Birthrates, -only females allowed-
 class Mammal : public Animal {
 private:
     int birthRateMonths;
-
 public:
     Mammal() : Animal() {
         birthRateMonths = 12;
     }
-
     Mammal(int animalAge, bool female) : Animal(animalAge, female) {
         birthRateMonths = 12;
     }
-
+    //override allows us to replace getBirthRate from the main class to out own version in the sub (or derived) class
     int getBirthRate() const override {
         return birthRateMonths;
     }
-
     string getType() const override {
         return "Mammal";
     }
 };
-
 class Cat : public Mammal {
 public:
     Cat() : Mammal() {}
     Cat(int animalAge, bool female) : Mammal(animalAge, female) {}
-
     string getSpecies() const override {
         return "cat";
     }
 };
-
 class Dog : public Mammal {
 public:
     Dog() : Mammal() {}
     Dog(int animalAge, bool female) : Mammal(animalAge, female) {}
-
     string getSpecies() const override {
         return "dog";
     }
 };
-
 class Bird : public Animal {
 private:
     int birthRateMonths;
-
 public:
     Bird() : Animal() {
         birthRateMonths = 9;
     }
-
     Bird(int animalAge, bool female) : Animal(animalAge, female) {
         birthRateMonths = 9;
     }
-
     int getBirthRate() const override {
         return birthRateMonths;
     }
-
     string getType() const override {
         return "Bird";
     }
 };
-
 class Eagle : public Bird {
 public:
     Eagle() : Bird() {}
     Eagle(int animalAge, bool female) : Bird(animalAge, female) {}
-
     string getSpecies() const override {
         return "eagle";
     }
 };
-
 class Parakeet : public Bird {
 public:
     Parakeet() : Bird() {}
     Parakeet(int animalAge, bool female) : Bird(animalAge, female) {}
-
     string getSpecies() const override {
         return "parakeet";
     }
 };
-
 class Fish : public Animal {
 private:
     int birthRateMonths;
-
 public:
     Fish() : Animal() {
         birthRateMonths = 6;
     }
-
     Fish(int animalAge, bool female) : Animal(animalAge, female) {
         birthRateMonths = 6;
     }
-
     int getBirthRate() const override {
         return birthRateMonths;
     }
-
     string getType() const override {
         return "Fish";
     }
 };
-
 class Goldfish : public Fish {
 public:
     Goldfish() : Fish() {}
     Goldfish(int animalAge, bool female) : Fish(animalAge, female) {}
-
     string getSpecies() const override {
         return "goldfish";
     }
 };
-
 class Shark : public Fish {
 public:
     Shark() : Fish() {}
     Shark(int animalAge, bool female) : Fish(animalAge, female) {}
-
     string getSpecies() const override {
         return "shark";
     }
 };
-
-// ===================== Ark helper functions =====================
+// this is starting our ark with 12 animals (and thats all it is)
+//this vector is storing pointers specifically to Animal objects (addresses/indirectly)
+//the & allows the main function to be updated and not just a copy of the main function
+//there are two of each for male and female
+//push_back is what pushes each to the END of the vector
 void buildArk(vector<Animal*>& ark) {
     ark.push_back(new Cat(0, true));
     ark.push_back(new Cat(0, false));
@@ -217,22 +182,27 @@ void buildArk(vector<Animal*>& ark) {
     ark.push_back(new Shark(0, true));
     ark.push_back(new Shark(0, false));
 }
+//just like the function above, its pointing to Animal and updating main, not making a copy
 
 void checkInventory(const vector<Animal*>& ark) {
     cout << "\n===== INVENTORY =====\n";
+    //starting at beginning of index (0) and keep looping until we reach the end which is however
+    //many animals are in the ark
+    //int was put in to make sure the data types stay the same
     for (int i = 0; i < (int)ark.size(); i++) {
+        //this is saying to go to animal pointer in index i and call displayAnimal()
         ark[i]->displayAnimal();
     }
     cout << "Total animals: " << ark.size() << endl;
 }
-
+//we must clean up the ark function at the end so it doesnt just store all the data.
+//this goes through each index and clears it
 void cleanUpArk(vector<Animal*>& ark) {
     for (int i = 0; i < (int)ark.size(); i++) {
         delete ark[i];
     }
     ark.clear();
 }
-
 // Create one baby based on species
 Animal* makeBaby(string species, bool female) {
     if (species == "cat") {
@@ -253,25 +223,29 @@ Animal* makeBaby(string species, bool female) {
     else if (species == "shark") {
         return new Shark(0, female);
     }
-
     return nullptr;
 }
-
 // Process one month: age animals and handle births
 void processMonth(vector<Animal*>& ark) {
+    //stores how many animals were in the ark before the month passed
+    //this allows to only loop through animals that were at the start of the month
     int originalSize = ark.size();
-
+    //takes the animal at a certain postion in the index and adds 1 month to its age
     for (int i = 0; i < originalSize; i++) {
         ark[i]->increaseAge();
-
+        //we check the gender to make sure its female, and only then will it keep going to give birth if thats whats next
         if (ark[i]->getGender() == true) {
+            //this checks if the female is within the time frame of giving birth by checking if itd age is a 
+            //multiple of its birth rate
             int birthRate = ark[i]->getBirthRate();
-
             if (birthRate > 0 && ark[i]->getAge() % birthRate == 0) {
+                //this will make every other baby female depending on the amount of animals in the ark
                 bool babyIsFemale = (ark.size() % 2 == 0);
+                //this creates a baby the same species as its mother
                 Animal* baby = makeBaby(ark[i]->getSpecies(), babyIsFemale);
-
+                //this points to nothing, but will only continue if a valid object was created
                 if (baby != nullptr) {
+                    //adds new baby to end of vector
                     ark.push_back(baby);
                     cout << "A new " << ark[i]->getSpecies() << " was born!" << endl;
                 }
@@ -279,55 +253,44 @@ void processMonth(vector<Animal*>& ark) {
         }
     }
 }
-
 // ===================== Main with menu =====================
 int main() {
     vector<Animal*> ark;
     buildArk(ark);
-
     int choice = 0;
-    int months = 0;
-
+    int months = 11;
+    //Options menu thingy
     while (choice != 4) {
         cout << "\n=================================\n";
         cout << "You have been on the ark for " << months << " months.\n";
         cout << "Would you like to:\n";
         cout << "1 - Let another month pass\n";
-        cout << "2 - Skip a year (12 months)\n";
-        cout << "3 - Check inventory\n";
+        cout << "2 - Skip a year\n";
+        cout << "3 - Look inside Ark\n";
         cout << "4 - Quit\n";
-        cout << "Enter your choice: ";
+        cout << "What do you want to do?\n";
         cin >> choice;
-
         switch (choice) {
         case 1:
             months++;
             processMonth(ark);
-            cout << "\nA month has passed...\n";
             break;
-
         case 2:
-            cout << "\nSkipping 12 months...\n";
             for (int i = 0; i < 12; i++) {
                 months++;
                 processMonth(ark);
             }
-            cout << "A full year has passed!\n";
             break;
-
         case 3:
-            checkInventory(ark);
+            checkInventory(ark); // displays all animals in Noah's Ark
             break;
-
         case 4:
-            cout << "\nExiting Noah's Ark system...\n";
+            cout << "\nDone (:\n";
             break;
-
         default:
-            cout << "\nInvalid choice. Try again.\n";
+            cout << "\nlol what are you doing here?\n";
         }
     }
-
-    cleanUpArk(ark);
+    cleanUpArk(ark); // clears the Noah's Ark
     return 0;
 }
