@@ -30,13 +30,13 @@ public:
 	void showSeats() {
 
 		// displaying the seat letters
-		cout << "A B C D E F G" << endl;
+		cout << "A B C D E F" << endl;
 
 		//Starts by looping through all the rows
 		for (int r = 0; r < 13; r++) {
 
 			//added the +1 for the rows because the plane seats start at 1 and not zero 
-			cout << "Row" << setw(2) << r + 1 << " ";
+			cout << "Row " << setw(2) << r + 1 << " ";
 
 			//this controls the seats in each row
 			//s is for controlling the seat column
@@ -71,10 +71,9 @@ public:
 		//A-F becoomes 0-5
 		int columnIndex = seatLetter - 'A';
 
-		cout << "DEBUG: rowIndex= " << rowIndex << " columnIndex= " << columnIndex << " current= " << seats[rowIndex][columnIndex];
 		//validates the input by the user
 		// if the row or seat are invalid it will let them know and exit
-		if (row < 0 || rowIndex >= 13 || columnIndex < 0 || columnIndex >= 6) {
+		if (row < 1 || row > 13 || columnIndex < 0 || columnIndex >= 6) {
 			cout << "Not a valid seat selection" << endl;
 			//immediately stops function
 			return;
@@ -125,7 +124,7 @@ int main() {
 	
 
 		cout << "Select Ticket Type: " << endl;
-		cout << "1. First Class (Rows 1 - 2 " << endl;
+		cout << "1. First Class (Rows 1 - 2) " << endl;
 		cout << "2. Business Class (Rows 3 - 7) " << endl;
 		cout << "3. Economy (Rows 8 - 13) " << endl;
 		cout << "Selection: ";
@@ -134,7 +133,7 @@ int main() {
 		int row;
 		char seat;
 
-		cout << "Enter Desired Row (1 - 7): ";
+		cout << "Enter Desired Row (1 - 13): ";
 		cin >> row;
 
 		if (!plane.validTicketRow(selection, row)) {
