@@ -1,0 +1,77 @@
+// Assignment1_RomanNumerals.cpp : This file contains the 'main' function. Program execution begins and ends there.
+
+
+#include <iostream>
+#include<string>
+using namespace std;
+
+//Creating the function that'll read the string of romn numerals and
+//turn it into an integer
+
+int readRomNum(string num) {
+	int total = 0;
+
+	for (int i = 0; i < num.length(); i++) {
+		int current = 0;
+		int next = 0;
+
+		//here I assign the value to the roman numeral
+		if (num[i] == 'I')
+			current = 1;
+		else if (num[i] == 'V')
+			current = 5;
+		else if (num[i] == 'X')
+			current = 10;
+		else if (num[i] == 'L')
+			current = 50;
+		else if (num[i] == 'C')
+			current = 100;
+		else if (num[i] == 'D')
+			current = 500;
+		else if (num[i] == 'M')
+			current = 1000;
+
+		//this allows me to give the value of the following roman numeral
+		//assuming one is tested (which i'm sure it will lol)
+
+		if (i + 1 < num.length()) {
+			if (num[i + 1] == 'I')
+				next = 1;
+			if (num[i + 1] == 'V')
+				next = 5;
+			if (num[i + 1] == 'X')
+				next = 10;
+			if (num[i + 1] == 'L')
+				next = 50;
+			if (num[i + 1] == 'C')
+				next = 100;
+			if (num[i + 1] == 'D')
+				next = 500;
+			if (num[i + 1] == 'M')
+				next = 1000;
+		}
+		//per roman numeral rules, if the first number is smaller than the one after
+		//it will be subtracted
+
+		if (current < next)
+			total -= current;
+		else
+			total += current;
+	}
+	return total;
+}
+int main()
+{
+	string romannum;
+
+	cout << "Roman Numeral Options: I, V, X, L, C, D, M" << endl;
+	cout << "Please keep the total below 400" << endl;
+	cout << "Please use capital letters and no spaces" << endl << endl;
+	cout << "Enter Roman Numeral(s): ";
+	cin >> romannum;
+
+	cout << "Roman Numeral Value: " << readRomNum(romannum) << endl;
+
+	return 0;
+}
+
