@@ -1,0 +1,67 @@
+// Assignment5_SumOfArrray.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+
+//dynamic array
+#include<vector>
+using namespace std;
+
+//helper function: this is what is building the running sum
+//Each piece: 
+//  vector<int>& numbers :  original array used instead of making copy
+//  vector<int>& result : storage of the running sum values
+//  int index : lets us know where in the array we are working
+//  ine currentSum : stores the running total at this point
+void runningSumBuild(vector<int>& numbers, vector<int>& result,
+    int index, int currentSum) {
+    //base case: this is so we know where to stop
+    // numbers.size gives the total number of elements in the vector
+    if (index == numbers.size()) {
+        return;
+    }
+
+    //adds current to the running totsl
+    currentSum += numbers[index];
+    //adsds new runniing sum to the result vector
+    result.push_back(currentSum);
+    //recursion step: calls the same function and moves along the index , hence the +1
+    runningSumBuild(numbers, result, index + 1, currentSum);
+}
+
+//main function
+vector<int> runningSumArray(vector<int>& numbers) {
+    //creating the empty vector
+    vector<int> result;
+    //starts recursive process
+    runningSumBuild(numbers, result, 0, 0);
+    return result;
+}
+int main()
+{
+    int size;
+    cout << "Welcome to Number Adder" << endl;
+    cout << "How many numbers do you want to add: ";
+    //storage of numbers users wants to use (total amount)
+    cin >> size;
+
+    //creates the vecotr with th eempty spots for the users input
+    vector<int> numbers(size);
+
+    //loop to allow the user to enter 1 number at a time
+    cout << "Please enter " << size << " numbers (press enter after each input): ";
+    for (int i = 0; i < size; i++) {
+        cin >> numbers[i];
+    }
+    //calls my function and stores the answer in the result vector
+    vector<int> result = runningSumArray(numbers);
+
+    //goes through my result vector and prints each value one by one
+    cout << "Your running sum array: ";
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << " ";
+    }
+
+    return 0;
+}
+
