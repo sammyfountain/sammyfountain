@@ -1,0 +1,65 @@
+// Hack_The_Box_Challenge.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+using namespace std;
+
+//first things first, we need the class named Student
+class Students {
+//i'm keeping scores private (within the class) 
+//this is also the array that will hold the 5 scores of each student
+private:
+    int scores[5];
+
+public:
+    //this functions sole job is to take the scores and store 'em.
+    //it will run through all 5 scores for each student
+    void input() {
+        for (int i = 0; i < 5; i++) {
+            cin >> scores[i];
+        }
+    }
+    
+    //we take those 5 scores and add them together. 
+    //"total" will be used to track the sum 
+    int calculateTotalScore() {
+        int total = 0;
+        for (int i = 0; i < 5; i++) {
+            total += scores[i];
+        }
+        //after calculation, just returns totaal score
+        return total;
+    }
+};
+
+int main(){
+
+    //will store the number of student with "numofstudents"
+    int numofstudents;
+    cout << "Enter the number of students: ";
+    cin >> numofstudents;
+
+    //this'll create the array of student objects (up to 100)
+    Students student[100];
+
+    //simply just asking for the scores
+    //starting with first student at i =0 and working its way down with i++
+    for (int i = 0; i < numofstudents; i++) {
+        //indexing starts at 0, but there is no zeroeth student, so i+1 helps start at 1
+        cout << "Enter the 5 scores for each student (press enter after each grade) " << i + 1 << ": ";
+        student[i].input();
+    }
+    //Wilmas moment of truth: here is where her total score is calculated
+    int wilmatotal = student[0].calculateTotalScore();
+    //these here keeps track of how many students did better than her
+    int count = 0;
+
+    //checking all but wilmas score
+    for (int i = 1; i < numofstudents; i++) {
+        if (student[i].calculateTotalScore() > wilmatotal) {
+            count++;
+        }
+    }
+    cout << "A total of " << count << " students are better than you, Wilma. Be better." << endl;
+    return 0;
+}
