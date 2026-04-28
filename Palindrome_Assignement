@@ -1,0 +1,45 @@
+// Palindrome_Recursion_Assignement.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//Ideas off the top:
+    //some kind of bool because its either a palindrome or not
+    //keep in mind that technically 1-letter words are palindromes
+
+#include <iostream>
+#include<string>
+using namespace std;
+
+//the recursive function
+bool isaPalindrome(string word) {
+    //base case (the default setting in a sense)
+    //decided if it has 1 letter or 0 letters, its still a palindrome (for ease)
+    //this was a basic challenge, so didnt wanna complicate it
+    if (word.length() <= 1) {
+        return true;
+    }
+
+    //checking first and last letter (should obviously match)
+    //this says "if letter in the first spot is not the same as the last spot,it is 
+    //Definitinely not a palindrome
+    if (word[0] != word[word.length() - 1]) {
+        return false;
+    }
+    //we make the word even smaller to check for palindrominity (not a word)
+    //so it check if the second and secodn to last letter match to verify if its a palindrome
+    return isaPalindrome(word.substr(1, word.length() - 2));
+}
+
+//everything in Int main is relatively basic
+//the most comments will be in the function
+int main(){
+    string word;
+
+    cout << "Enter a word: ";
+    cin >> word;
+
+    if (isaPalindrome(word)) {
+        cout << "Ayo! its a Palindrome" << endl;
+    }
+    else {
+        cout << "Unfortunately, Not a Palindrome." << endl;
+    }
+    return 0;
+}
